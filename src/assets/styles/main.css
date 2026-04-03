@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Slot Gradient Classes ─── */
+.slot-gradient-0 { background: linear-gradient(135deg, #56c596, #2bbcb3); }
+.slot-gradient-1 { background: linear-gradient(135deg, #f7a44c, #f06292); }
+.slot-gradient-2 { background: linear-gradient(135deg, #ef5350, #e91e63); }
+.slot-gradient-3 { background: linear-gradient(135deg, #42a5f5, #5c6bc0); }
+.slot-gradient-4 { background: linear-gradient(135deg, #26c6da, #00acc1); }
+.slot-gradient-5 { background: linear-gradient(135deg, #ab47bc, #7e57c2); }
+
+/* ─── Buttons ─── */
+.btn-date    { background: linear-gradient(135deg, #72AC4F, #448DDE); }
+.btn-add     { background: linear-gradient(135deg, #2bbcb3, #1a8a83); }
+.btn-copy    { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+/* ─── Calendar Availability Colors ─── */
+.cal-full   { @apply bg-green-500; }
+.cal-some   { @apply bg-yellow-500; }
+.cal-booked { @apply bg-red-500; }
+
+/* ─── Custom Select Arrow ─── */
+.select-arrow {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* ─── Copy Table Date Cell ─── */
+.date-cell {
+  @apply inline-block cursor-pointer rounded-md px-2 py-1 text-sm transition-all;
+}
+.date-cell:hover { @apply bg-green-50; }
+.date-cell.selected { @apply bg-green-200; }
+
+/* ─── Sidebar Scrollbar ─── */
+.sidebar-scroll::-webkit-scrollbar { width: 5px; }
+.sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+.sidebar-scroll::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+
+/* ─── Toast ─── */
+.toast-enter-active { animation: toast-in 0.3s ease-out; }
+.toast-leave-active { animation: toast-in 0.2s ease-in reverse; }
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ─── Mobile Menu Overlay ─── */
+.mobile-menu-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-40;
+  animation: fade-in 0.2s ease-out;
+}
+.mobile-menu-panel {
+  @apply fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-50 overflow-y-auto;
+  animation: slide-in 0.25s ease-out;
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+/* ─── Footer ─── */
+.footer-link {
+  @apply text-gray-400 text-xs leading-relaxed hover:text-white transition-colors cursor-pointer;
+}
+.footer-title {
+  @apply text-white font-bold text-sm mb-3 font-poppins;
+}

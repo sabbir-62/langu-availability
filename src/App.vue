@@ -1,0 +1,101 @@
+<template>
+  <div class="min-h-screen flex flex-col bg-gray-100">
+    <AppHeader />
+
+    <main class="max-w-7xl mx-auto w-full px-3 sm:px-4 lg:px-6 py-4 sm:py-6 flex-1">
+      <!-- Title -->
+      <div class="flex items-center gap-3 mb-4 sm:mb-6">
+        <h1 class="text-xl sm:text-2xl font-medium font-poppins text-[#2D2D2D]">
+          Availability
+        </h1>
+        <span class="text-xl sm:text-2xl">📅</span>
+      </div>
+
+      <!-- Mobile: Calendar on top -->
+      <CalendarSidebarMobile
+        :date="selectedDate"
+        :slot-store="slotStore"
+        @jump-to="jumpToDate"
+      />
+
+      <div class="flex gap-6">
+        <!-- Left Panel -->
+        <div class="flex-1 min-w-0">
+          <DateNavigator
+            :date="selectedDate"
+            @prev="prevDay"
+            @next="nextDay"
+          />
+
+          <TimeSlotManager
+            :date="selectedDate"
+            :slots="currentSlots"
+            @add-slot="handleAddSlot"
+            @remove-slot="handleRemoveSlot"
+          />
+
+          <CopyDatesTable
+            :date="selectedDate"
+            :has-slots-fn="hasSlots"
+            @copy="handleCopySlots"
+          />
+        </div>
+
+        <!-- Desktop: Sidebar on right -->
+        <CalendarSidebarDesktop
+          :date="selectedDate"
+          :slot-store="slotStore"
+          @jump-to="jumpToDate"
+        />
+      </div>
+    </main>
+
+    <AppFooter />
+    <ToastNotification />
+  </div>
+</template>
+
+
+<script setup>
+import { computed, onMounted } from 'vue'
+import { useDateNavigation } from '@/composables/useDateNavigation'
+import { useSlots } from '@/composables/useSlots'
+
+import AppHeader from '@/components/layout/AppHeader.vue'
+import AppFooter from '@/components/layout/AppFooter.vue'
+import DateNavigator from '@/components/availability/DateNavigator.vue'
+import TimeSlotManager from '@/components/availability/TimeSlotManager.vue'
+import CopyDatesTable from '@/components/availability/CopyDatesTable.vue'
+import CalendarSidebarDesktop from '@/components/availability/CalendarSidebarDesktop.vue'
+import CalendarSidebarMobile from '@/components/availability/CalendarSidebarMobile.vue'
+import ToastNotification from '@/components/ui/ToastNotification.vue'
+
+const { selectedDate, prevDay, nextDay, jumpToDate } = useDateNavigation()
+const {
+  slotStore,
+  getSlotsForDate,
+  hasSlots,
+  addSlot,
+  removeSlot,
+  copySlotsToTargets,
+  seedDemoData,
+} = useSlots()
+
+const currentSlots = computed(() => getSlotsForDate(selectedDate.value))
+
+function handleAddSlot({ from, to }) {
+  addSlot(selectedDate.value, from, to)
+}
+
+function handleRemoveSlot(slotId) {
+  removeSlot(selectedDate.value, slotId)
+}
+
+function handleCopySlots(targetKeys) {
+  copySlotsToTargets(selectedDate.value, targetKeys)
+}
+
+onMounted(() => {
+  seedDemoData()
+})
+</script>
