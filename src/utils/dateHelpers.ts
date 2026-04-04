@@ -1,9 +1,8 @@
-import { MONTH_NAMES } from '@/constants'
+import { MONTH_NAMES } from "../constants"
 
-/**
- * Generate a YYYY-MM-DD key from a Date object
- */
-export function dateKey(d) {
+
+
+export function dateKey(d: Date) {
   const dd = new Date(d)
   const y = dd.getFullYear()
   const m = String(dd.getMonth() + 1).padStart(2, '0')
@@ -11,41 +10,33 @@ export function dateKey(d) {
   return `${y}-${m}-${day}`
 }
 
-/**
- * Format: "Thursday, 18 March 2025"
- */
-export function formatDisplayDate(d) {
+
+export function formatDisplayDate(d: Date) {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   return `${days[d.getDay()]}, ${d.getDate()} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`
 }
 
-/**
- * Format: "March 18"
- */
-export function formatShortDate(d) {
+export function formatTooltipDate(d: Date) {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+}
+
+export function formatShortDate(d: Date) {
   return `${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`
 }
 
-/**
- * Format: "18 March"
- */
-export function formatCopyDate(d) {
+export function formatCopyDate(d: Date) {
   return `${d.getDate()} ${MONTH_NAMES[d.getMonth()]}`
 }
 
-/**
- * Get the Monday of the week for a given date
- */
-export function getWeekStart(d) {
+export function getWeekStart(d: Date) {
   const dd = new Date(d)
   const day = dd.getDay()
   const diff = dd.getDate() - day + (day === 0 ? -6 : 1)
   return new Date(dd.getFullYear(), dd.getMonth(), diff)
 }
 
-/**
- * Generate 30-minute interval time options from 00:00 to 23:30
- */
 export function generateTimeOptions() {
   const opts = []
   for (let h = 0; h < 24; h++) {
@@ -56,10 +47,20 @@ export function generateTimeOptions() {
   return opts
 }
 
-/**
- * Build calendar cell data for a given month
- */
-export function buildCalendarCells(year, month, slotStore) {
+
+function isPastDate(date: Date) {
+  const today = new Date();
+
+  // remove time
+  today.setHours(0, 0, 0, 0);
+
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+
+  return d < today;
+}
+
+export function buildCalendarCells(year: number, month: number, slotStore: Record<string, unknown[]>) {
   const firstDay = new Date(year, month, 1).getDay()
   const offset = firstDay === 0 ? 6 : firstDay - 1
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -75,10 +76,13 @@ export function buildCalendarCells(year, month, slotStore) {
     const key = dateKey(fullDate)
     const count = slotStore[key]?.length ?? 0
 
+    const isMine = slotStore[key]?.some((s: any) => s.isMine)
+    console.log('isMine for', key, 'is', isMine)
+
     let status = null
-    if (count >= 1 && count <= 2) status = 'some'
-    else if (count >= 3 && count <= 5) status = 'full'
-    else if (count > 5) status = 'booked'
+    if (isMine) status = "some";
+    else if(isMine == undefined) status = null;
+    else status = "full";
 
     cells.push({
       day: d,

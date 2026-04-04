@@ -15,8 +15,8 @@
       <div v-for="(cell, ci) in cells" :key="ci"
            class="relative flex items-center justify-center"
            :style="{ height: compact ? '26px' : '28px' }">
-        <template v-if="cell.day">
-          <div v-if="cell.status"
+        <template v-if="cell.day ">
+          <div v-if="cell.status && cell.day >= new Date().getDate()"
                class="rounded-full flex items-center justify-center text-white font-bold relative cursor-pointer transition-transform hover:scale-110"
                :class="[
                  statusClass(cell.status),
@@ -31,7 +31,8 @@
                     style="width: 13px; height: 13px; font-size: 6px; top: -3px; right: -3px;">T</span>
             </template>
           </div>
-          <span v-else class="text-gray-500 text-[10px] sm:text-xs">{{ cell.day }}</span>
+          <span v-else-if = "cell.day >= new Date().getDate()" class="text-[10px] sm:text-xs cursor-pointer text-white"  @click="$emit('jumpTo', cell.fullDate)">{{ cell.day }}</span>
+          <span v-else class="text-[10px] sm:text-xs cursor-not-allowed text-gray-400">{{ cell.day }}</span>
         </template>
       </div>
     </div>
@@ -56,7 +57,6 @@ function statusClass(status) {
   return {
     full: 'cal-full',
     some: 'cal-some',
-    booked: 'cal-booked',
   }[status] || ''
 }
 </script>

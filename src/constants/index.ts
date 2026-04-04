@@ -23,7 +23,7 @@ export const MONTH_NAMES = [
 ]
 
 export const WEEKS_TO_SHOW = 4
-export const WEEKS_TO_SHOW_MOBILE = 2
+export const WEEKS_TO_SHOW_MOBILE = 4
 
 export const FOOTER_SECTIONS = [
   {
@@ -80,65 +80,16 @@ export const FOOTER_SOCIALS = [
 
 export const DEMO_SLOTS = [
   {
-    date: '2025-03-18',
+    date: '2026-04-04',
     slots: [
-      { from: '07:00', to: '07:30' }, { from: '08:00', to: '08:30' },
-      { from: '09:00', to: '09:30' }, { from: '10:00', to: '10:30' },
-      { from: '14:00', to: '14:30' }, { from: '15:00', to: '15:30' },
+      { from: '07:00', to: '07:30' }, { from: '08:00', to: '08:30' }
     ],
   },
   {
-    date: '2025-03-19',
+    date: '2026-04-05',
     slots: [
       { from: '07:00', to: '07:30' }, { from: '09:00', to: '10:00' },
       { from: '14:00', to: '15:00' },
     ],
-  },
-  {
-    date: '2025-03-24',
-    slots: [
-      { from: '08:00', to: '09:00' }, { from: '10:00', to: '11:00' },
-    ],
-  },
-  {
-    date: '2025-03-26',
-    slots: [
-      { from: '07:00', to: '07:30' }, { from: '09:00', to: '10:00' },
-      { from: '11:00', to: '12:00' }, { from: '14:00', to: '15:00' },
-      { from: '16:00', to: '17:00' }, { from: '18:00', to: '19:00' },
-    ],
-  },
-  {
-    date: '2025-03-27',
-    slots: [
-      { from: '08:00', to: '09:00' }, { from: '10:00', to: '11:00' },
-      { from: '13:00', to: '14:00' }, { from: '15:00', to: '16:00' },
-    ],
-  },
-  {
-    date: '2025-04-19',
-    slots: [
-      { from: '09:00', to: '10:00' }, { from: '11:00', to: '12:00' },
-      { from: '14:00', to: '15:00' },
-    ],
-  },
-  {
-    date: '2025-04-25',
-    slots: [
-      { from: '08:00', to: '09:00' }, { from: '10:00', to: '11:00' },
-      { from: '14:00', to: '15:00' }, { from: '16:00', to: '17:00' },
-    ],
-  },
-  {
-    date: '2025-05-20',
-    slots: [{ from: '09:00', to: '10:00' }],
-  },
-  {
-    date: '2025-05-22',
-    slots: [
-      { from: '08:00', to: '09:00' }, { from: '10:00', to: '11:00' },
-      { from: '14:00', to: '15:00' }, { from: '16:00', to: '17:00' },
-      { from: '18:00', to: '19:00' }, { from: '20:00', to: '21:00' },
-    ],
-  },
+  }
 ]

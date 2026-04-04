@@ -2,7 +2,6 @@
   <footer class="bg-footer-bg mt-auto">
     <!-- Main Footer Links -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-      <!-- Desktop: 5 columns | Mobile: stacked -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
         <div v-for="section in sections" :key="section.title">
           <h4 class="footer-title">{{ section.title }}</h4>

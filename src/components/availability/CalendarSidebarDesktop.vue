@@ -1,7 +1,7 @@
 <template>
   <div class="hidden lg:block w-64 flex-shrink-0">
     <ColorKeyInfo />
-    <div class="sidebar-scroll overflow-y-auto" style="max-height: calc(100vh - 240px);">
+    <div class="overflow-y-auto">
       <MiniCalendar
         v-for="cal in calendars"
         :key="cal.key"

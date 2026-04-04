@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export function useDateNavigation(initialDate = new Date(2025, 2, 18)) {
+export function useDateNavigation(initialDate = new Date()) {
   const selectedDate = ref(new Date(initialDate))
 
   function prevDay() {
@@ -15,7 +15,7 @@ export function useDateNavigation(initialDate = new Date(2025, 2, 18)) {
     selectedDate.value = d
   }
 
-  function jumpToDate(date) {
+  function jumpToDate(date: Date) {
     selectedDate.value = new Date(date)
   }
 

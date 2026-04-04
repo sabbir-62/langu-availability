@@ -3,12 +3,8 @@
 @tailwind utilities;
 
 /* ─── Slot Gradient Classes ─── */
-.slot-gradient-0 { background: linear-gradient(135deg, #56c596, #2bbcb3); }
-.slot-gradient-1 { background: linear-gradient(135deg, #f7a44c, #f06292); }
-.slot-gradient-2 { background: linear-gradient(135deg, #ef5350, #e91e63); }
-.slot-gradient-3 { background: linear-gradient(135deg, #42a5f5, #5c6bc0); }
-.slot-gradient-4 { background: linear-gradient(135deg, #26c6da, #00acc1); }
-.slot-gradient-5 { background: linear-gradient(135deg, #ab47bc, #7e57c2); }
+.slot-gradient-0 { background: linear-gradient(135deg, #72AC4F, #448DDE); }
+.slot-gradient-1 { background: linear-gradient(135deg, #DE8A7D, #F3B678); }
 
 /* ─── Buttons ─── */
 .btn-date    { background: linear-gradient(135deg, #72AC4F, #448DDE); }
@@ -16,9 +12,8 @@
 .btn-copy    { background: linear-gradient(135deg, #667eea, #764ba2); }
 
 /* ─── Calendar Availability Colors ─── */
-.cal-full   { @apply bg-green-500; }
-.cal-some   { @apply bg-yellow-500; }
-.cal-booked { @apply bg-red-500; }
+.cal-some   { background: linear-gradient(135deg, #72AC4F, #448DDE); }
+.cal-full   { background: linear-gradient(135deg, #DE8A7D, #F3B678); }
 
 /* ─── Custom Select Arrow ─── */
 .select-arrow {
@@ -47,6 +42,34 @@
 @keyframes toast-in {
   from { opacity: 0; transform: translate(-50%, 20px); }
   to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ─── Tooltip ─── */
+.tooltip-wrap {
+  @apply relative;
+  
+}
+
+.tooltip-wrap .tooltip-text {
+  @apply invisible opacity-0 absolute z-50 px-2 py-1 text-[10px] font-semibold text-white rounded-md shadow-lg whitespace-nowrap transition-all duration-150;
+  background: #1a1a2e;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-wrap .tooltip-text::after {
+  content: '';
+  @apply absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #1a1a2e;
+}
+
+.tooltip-wrap:hover .tooltip-text {
+  @apply visible opacity-100;
 }
 
 /* ─── Mobile Menu Overlay ─── */
