@@ -1,7 +1,7 @@
 <template>
   <header class="w-full bg-[#FFFFFF] sticky top-0 z-30 border-b">
     <div
-      class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-1 "
+      class="max-w-7xl mx-auto flex items-center justify-between px-3 py-1 "
     >
       <!-- Logo -->
       <div class="flex items-center gap-2 cursor-pointer">
