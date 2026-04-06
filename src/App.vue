@@ -2,15 +2,17 @@
   <div class="min-h-screen flex flex-col bg-[#F8FAFF]">
     <AppHeader />
 
-    <main
-      class="max-w-7xl mx-auto w-full px-3 sm:px-4 lg:px-6 py-4 sm:py-6 flex-1"
-    >
+    <main class="max-w-7xl mx-auto w-full px-3 mt-6 md:mt-12 flex-1">
       <!-- Title -->
-      <div class="flex items-center gap-3 mb-4 sm:mb-6">
-        <h1 class="text-xl sm:text-2xl font-medium font-poppins text-[#2D2D2D]">
+      <div class="flex items-center gap-3">
+        <h1 class="text-2xl sm:text-3xl font-semibold font-poppins text-[#2D2D2D]">
           Availability
         </h1>
-        <span class="text-xl sm:text-2xl">📅</span>
+         <img
+          src="./assets/images/calendar.png"
+          alt="Calendar Icon"
+          class="w-[30px] h-[30px] md:w-[36px] md:h-[36px]"
+        />
       </div>
 
       <!-- Mobile: Calendar on top -->
@@ -22,7 +24,7 @@
 
       <div class="flex gap-6">
         <!-- Left Panel -->
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 ms-2 mt-5">
           <DateNavigator :date="selectedDate" @prev="prevDay" @next="nextDay" />
 
           <TimeSlotManager

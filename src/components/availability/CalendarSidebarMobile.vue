@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:hidden mb-4 -mx-3 px-3 overflow-x-auto scroll-smooth"
+  <div class="lg:hidden mb-4 -mx-3 px-3 overflow-x-auto scroll-smooth mt-5"
        style="-webkit-overflow-scrolling: touch; scrollbar-width: none;">
     <div class="flex gap-3" :style="{ width: calendars.length * 280 + 'px' }">
       <div v-for="cal in calendars" :key="cal.key" class="w-[268px] flex-shrink-0">

@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-footer-bg mt-auto">
+  <footer class="bg-footer-bg mt-10">
     <!-- Main Footer Links -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">

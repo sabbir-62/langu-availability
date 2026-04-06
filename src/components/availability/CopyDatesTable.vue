@@ -1,72 +1,51 @@
 <template>
-  <div class="p-4 sm:p-6">
+  <div class="mt-6 md:mt-11">
     <!-- Header -->
-    <div
-      class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4"
-    >
-      <p class="text-lg font-bold text-text-main">
+    <div class="flex justify-between gap-3">
+      <p class="text-xs md:text-lg font-bold text-text-main">
         Next, copy the availability above to the selected dates below:
       </p>
       <button
         @click="handleCopy"
-        class="btn-date text-white px-5 sm:px-6 py-2 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 self-end sm:self-auto"
+        class="btn-date text-white w-48 h-9 md:h-10 rounded-full text-sm font-bold shadow-md hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 self-end sm:self-auto"
         :class="{ 'opacity-50 cursor-not-allowed': selectedKeys.length === 0 }"
         :disabled="selectedKeys.length === 0"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-4 h-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path
-            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-          ></path>
-        </svg>
-
+        <img
+          src="../../assets/images/copy.png"
+          alt="Calendar Icon"
+          class="w-[12px] h-[12px] md:w-[14px] md:h-[14px]"
+        />
         Copy slots
       </button>
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto -mx-2 sm:mx-0 scrol-auto">
-      <table class="w-[600px] md:w-full" v-for="mon in 3" :key="mon">
-        <thead>
-          <tr class="">
-            <th class="py-2 px-1 text-left"></th>
-            <th
-              v-for="w in visibleWeeks"
-              :key="'wh' + w"
-              class="py-2 px-1 text-center text-xs font-bold text-text-muted"
-            ></th>
-          </tr>
-        </thead>
+    <div class="overflow-x-auto pb-2 sm:mx-0 pt-5">
+      <table class="w-[650px] sm:w-full" v-for="mon in 3" :key="mon">
         <tbody>
-          <tr v-for="dayIdx in 7" :key="dayIdx" class="scroll-auto w-full">
+          <tr v-for="dayIdx in 7" :key="dayIdx" class="">
             <td
-              class="py-1.5 px-1 sm:px-2 text-xs sm:text-sm font-bold italic text-text-main min-w-[70px] sm:min-w-[90px]"
+              class="text-xs sm:text-sm font-bold italic text-text-main w-20 md:w-28 whitespace-nowrap sticky left-0 z-10 bg-[#F8FAFF]"
             >
               {{ dayNames[dayIdx - 1] }}
             </td>
             <td
               v-for="weekIdx in visibleWeeks"
               :key="'d' + dayIdx + 'w' + weekIdx"
-              class="py-1.5 px-1 text-center"
+              class="py-2"
             >
-              <div class="tooltip-wrap cursor-pointer w-full">
+              <div class="tooltip-wrap cursor-pointe">
                 <span
-                  v-if="getCellDate(dayIdx - 1, weekIdx - 1, mon - 1) "
+                  v-if="getCellDate(dayIdx - 1, weekIdx - 1, mon - 1)"
                   @click="
                     toggleDate(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1))
                   "
-                  class="text-xs sm:text-sm border border-1 flex justify-center items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] font-bold shadow-md cusror-pointer transition-all hover:shadow-md hover:scale-105"
+                  class="text-xs sm:text-sm border border-gray-300 h-8 w-32 sm:w-48 flex justify-center items-center gap-5 sm:gap-2 rounded-full text-[10px] font-bold shadow-md cusror-pointer transition-all hover:shadow-md hover:scale-105"
                   :class="[
-                    getCellDate(dayIdx - 1, weekIdx - 1, mon - 1).getDate() < new Date().getDate() && 'cursor-not-allowed text-gray-400',
+                    getCellDate(dayIdx - 1, weekIdx - 1, mon - 1).getDate() <
+                      new Date().getDate() &&
+                      'cursor-not-allowed text-gray-400',
                     dateHasSlots(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1))
                       ? hasMineSlotsFn(
                           getCellDate(dayIdx - 1, weekIdx - 1, mon - 1),
@@ -75,14 +54,16 @@
                         : ' slot-gradient-1 text-white'
                       : ' text-text-muted',
                     isSelected(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1)) &&
-                      'selected text-white bg-gray-700',
+                      'selected text-white bg-[#757575]',
                   ]"
                 >
                   {{
                     formatCell(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1))
                   }}
                 </span>
-                <span class="tooltip-text">{{ tooltipFor(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1)) }}</span>
+                <span class="tooltip-text">{{
+                  tooltipFor(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1))
+                }}</span>
               </div>
             </td>
           </tr>
@@ -169,8 +150,8 @@ function handleCopy() {
 }
 
 function tooltipFor(d) {
-  const count = props.hasSlotCountFn(d)
-  const ds = formatTooltipDate(d)
-  return count > 0 ? `${ds} — ${count} slot(s)` : `${ds} — No slots`
+  const count = props.hasSlotCountFn(d);
+  const ds = formatTooltipDate(d);
+  return count > 0 ? `${ds} — ${count} slot(s)` : `${ds} — No slots`;
 }
 </script>

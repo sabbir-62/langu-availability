@@ -51,7 +51,7 @@
 }
 
 .tooltip-wrap .tooltip-text {
-  @apply invisible opacity-0 absolute z-50 px-2 py-1 text-[10px] font-semibold text-white rounded-md shadow-lg whitespace-nowrap transition-all duration-150;
+  @apply invisible opacity-0 absolute z-auto px-2 py-1 text-[10px] font-semibold text-white rounded-md shadow-lg whitespace-nowrap transition-all duration-150;
   background: #1a1a2e;
   bottom: calc(100% + 5px);
   left: 50%;
