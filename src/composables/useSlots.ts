@@ -30,6 +30,19 @@ export function useSlots() {
     return slotStore[key]?.length ?? 0;
   }
 
+  const getBookedSlots = (date: Date) => {
+    const key = dateKey(date);
+    const slots = slotStore[key];
+
+    if (!Array.isArray(slots) || slots.length === 0) return "empty";
+
+    const total = slots.length;
+    const booked = slots.filter((s) => s.isBooked).length;
+
+    if (booked === total) return "all-booked";
+    else return "not-all-booked";
+  };
+
   const getSlotStatus = (date: Date) => {
     const key = dateKey(date);
     const slots = slotStore[key];
@@ -140,7 +153,6 @@ export function useSlots() {
       slotStore[date] = slots.map((s) => ({
         ...s,
         id: ++idCounter,
-        isMine: false,
       }));
     });
   }
@@ -150,6 +162,7 @@ export function useSlots() {
     getSlotsForDate,
     hasSlots,
     getSlotCount,
+    getBookedSlots,
     slotStatusClass,
     addSlot,
     removeSlot,

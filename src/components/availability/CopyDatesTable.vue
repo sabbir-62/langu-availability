@@ -35,7 +35,7 @@
               :key="'d' + dayIdx + 'w' + weekIdx"
               class="py-2"
             >
-              <div class="tooltip-wrap cursor-pointe">
+              <div class="tooltip-wrap cursor-pointer">
                 <span
                   v-if="getCellDate(dayIdx - 1, weekIdx - 1, mon - 1)"
                   @click="

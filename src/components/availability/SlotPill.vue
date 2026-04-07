@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="!slot.isBooked ? 'slot-gradient-0' : 'slot-gradient-2'"
+    :class="!slot.isBooked ? 'slot-gradient-0' : 'hidden'"
     class="flex justify-center items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 h-7 sm:h-8 sm:py-1.5 rounded-full text-white text-[10px] sm:text-xs font-semibold shadow-sm transition-all hover:shadow-md hover:scale-105"
   >
     {{ slot.from }} - {{ slot.to }}

@@ -47,19 +47,6 @@ export function generateTimeOptions() {
   return opts
 }
 
-
-function isPastDate(date: Date) {
-  const today = new Date();
-
-  // remove time
-  today.setHours(0, 0, 0, 0);
-
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-
-  return d < today;
-}
-
 export function buildCalendarCells(year: number, month: number, slotStore: Record<string, unknown[]>) {
   const firstDay = new Date(year, month, 1).getDay()
   const offset = firstDay === 0 ? 6 : firstDay - 1
@@ -73,22 +60,10 @@ export function buildCalendarCells(year: number, month: number, slotStore: Recor
 
   for (let d = 1; d <= daysInMonth; d++) {
     const fullDate = new Date(year, month, d)
-    const key = dateKey(fullDate)
-    const count = slotStore[key]?.length ?? 0
-
-    const isMine = slotStore[key]?.some((s: any) => s.isMine)
-    console.log('isMine for', key, 'is', isMine)
-
-    let status = null
-    if (isMine) status = "some";
-    else if(isMine == undefined) status = null;
-    else status = "full";
 
     cells.push({
       day: d,
       fullDate,
-      status,
-      hasBooking: count > 3,
     })
   }
 

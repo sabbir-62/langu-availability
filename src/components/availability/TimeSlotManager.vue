@@ -5,8 +5,8 @@
     </p>
 
     <!-- Time Pickers Row -->
-    <div class="flex justify-between sm:justify-start gap-1 sm:gap-8 items-end ">
-      <div class="flex gap-1 md:gap-8 ">
+    <div class="flex justify-between sm:justify-start gap-1 sm:gap-8 items-end">
+      <div class="flex gap-1 md:gap-8">
         <div>
           <label
             class="text-xs md:text-base font-normal text-text-main block mb-1"
@@ -96,7 +96,15 @@
       >
         No slots added yet. Add your available times above.
       </p>
+      <div v-if="getBookedSlotsFn(props.date) === 'all-booked'">
+        <div
+          class="slot-gradient-2 flex justify-center items-center h-7 w-48 sm:h-8 sm:py-1.5 rounded-full text-white text-sm font-bold"
+        >
+          Fully Booked
+        </div>
+      </div>
       <div
+        v-else
         class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3"
       >
         <SlotPill
@@ -119,6 +127,7 @@ import SlotPill from "./SlotPill.vue";
 const props = defineProps({
   date: { type: Date, required: true },
   slots: { type: Array, default: () => [] },
+  getBookedSlotsFn: { type: Function, required: true },
 });
 
 const emit = defineEmits(["addSlot", "removeSlot"]);
@@ -127,6 +136,7 @@ const fromTime = ref("07:00");
 const toTime = ref("07:30");
 const timeOptions = generateTimeOptions();
 const shortDate = computed(() => formatShortDate(props.date));
+// console.log('date in TimeSlotManager:', getBookedSlotsFn(shortDate.value))
 
 function handleAdd() {
   emit("addSlot", { from: fromTime.value, to: toTime.value, isBooked: false });
