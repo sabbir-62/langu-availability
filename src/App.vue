@@ -31,6 +31,7 @@
           <TimeSlotManager
             :date="selectedDate"
             :slots="currentSlots"
+            :get-booked-slots-fn="getBookedSlots"
             @add-slot="handleAddSlot"
             @remove-slot="handleRemoveSlot"
           />
@@ -80,6 +81,7 @@ const {
   hasSlots,
   getSlotCount,
   slotStatusClass,
+  getBookedSlots,
   addSlot,
   removeSlot,
   copySlotsToTargets,

@@ -26,7 +26,7 @@
         <template v-if="cell.day">
           <div
             v-if="isFutureOrToday(cell.fullDate)"
-            class="rounded-full flex items-center justify-center text-white font-bold relative cursor-pointer transition-transform hover:scale-110"
+            class="rounded-full flex items-center justify-center text-white font-bold relative cursor-pointer transition-transform hover:scale-125"
             :class="[
               slotStatusClassFn ? slotStatusClassFn(cell.fullDate) : '',
               compact ? 'w-6 h-6 text-[10px]' : 'w-7 h-7 text-xs',
@@ -34,31 +34,6 @@
             @click="$emit('jumpTo', cell.fullDate)"
           >
             {{ cell.day }}
-            <template v-if="cell.hasBooking">
-              <span
-                class="absolute bg-red-500 text-white border-2 border-sidebar rounded-full flex items-center justify-center font-bold"
-                style="
-                  width: 13px;
-                  height: 13px;
-                  font-size: 6px;
-                  top: -3px;
-                  left: -3px;
-                "
-                >S</span
-              >
-
-              <span
-                class="absolute bg-purple-600 text-white border-2 border-sidebar rounded-full flex items-center justify-center font-bold"
-                style="
-                  width: 13px;
-                  height: 13px;
-                  font-size: 6px;
-                  top: -3px;
-                  right: -3px;
-                "
-                >T</span
-              >
-            </template>
           </div>
           <span
             v-else-if="isFutureOrToday(cell.fullDate)"
