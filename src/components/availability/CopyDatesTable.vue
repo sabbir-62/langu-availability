@@ -46,15 +46,11 @@
                     getCellDate(dayIdx - 1, weekIdx - 1, mon - 1).getDate() <
                       new Date().getDate() &&
                       'cursor-not-allowed text-gray-400',
-                    dateHasSlots(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1))
-                      ? hasMineSlotsFn(
-                          getCellDate(dayIdx - 1, weekIdx - 1, mon - 1),
-                        )
-                        ? 'slot-gradient-0 text-white'
-                        : ' slot-gradient-1 text-white'
-                      : ' text-text-muted',
+                    slotStatusClassFn(
+                      getCellDate(dayIdx - 1, weekIdx - 1, mon - 1),
+                    ),
                     isSelected(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1)) &&
-                      'selected text-white bg-[#757575]',
+                      'selected text-white bg-gray-700',
                   ]"
                 >
                   {{
@@ -83,7 +79,7 @@ const props = defineProps({
   date: { type: Date, required: true },
   hasSlotsFn: { type: Function, required: true },
   hasSlotCountFn: { type: Function, required: true },
-  hasMineSlotsFn: { type: Function, required: true },
+  slotStatusClassFn: { type: Function, required: true },
   slots: { type: Array, default: () => [] },
 });
 
@@ -122,14 +118,6 @@ function getCellDate(dayIdx, weekIdx, monthIdx) {
 
 function formatCell(d) {
   return formatCopyDate(d);
-}
-
-function dateHasSlots(d) {
-  return props.hasSlotsFn(d);
-}
-
-function dateHasMineSlots(d) {
-  return props.hasMineSlotsFn(d);
 }
 
 function isSelected(d) {

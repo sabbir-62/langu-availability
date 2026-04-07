@@ -7,6 +7,7 @@
           :month-name="cal.monthName"
           :year="cal.year"
           :cells="cal.cells"
+          :slot-status-class-fn="slotStatusClassFn"
           :compact="true"
           @jump-to="(d) => $emit('jumpTo', d)"
         />
@@ -24,24 +25,26 @@ import MiniCalendar from './MiniCalendar.vue'
 const props = defineProps({
   date: { type: Date, required: true },
   slotStore: { type: Object, required: true },
+  slotStatusClassFn: { type: Function, required: true },
 })
 
 defineEmits(['jumpTo'])
 
 const calendars = computed(() => {
-  const result = []
-  for (let m = 0; m < 4; m++) {
+  return Array.from({ length: 4 }, (_, m) => {
     const d = new Date(props.date.getFullYear(), props.date.getMonth() + m, 1)
-    const year = d.getFullYear()
-    const month = d.getMonth()
-    result.push({
-      key: `${year}-${month}`,
-      monthName: MONTH_NAMES[month],
-      year,
-      cells: buildCalendarCells(year, month, props.slotStore),
-    })
-  }
-  return result
+
+    return {
+      key: `${d.getFullYear()}-${d.getMonth()}`,
+      monthName: MONTH_NAMES[d.getMonth()],
+      year: d.getFullYear(),
+      cells: buildCalendarCells(
+        d.getFullYear(),
+        d.getMonth(),
+        props.slotStore
+      ),
+    }
+  })
 })
 </script>
 

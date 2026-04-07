@@ -19,6 +19,7 @@
       <CalendarSidebarMobile
         :date="selectedDate"
         :slot-store="slotStore"
+        :slot-status-class-fn="slotStatusClass"
         @jump-to="jumpToDate"
       />
 
@@ -38,7 +39,7 @@
             :date="selectedDate"
             :has-slots-fn="hasSlots"
             :has-slot-count-fn="getSlotCount"
-            :has-mine-slots-fn="hasMine"
+            :slot-status-class-fn="slotStatusClass"
             @copy="handleCopySlots"
           />
         </div>
@@ -47,6 +48,7 @@
         <CalendarSidebarDesktop
           :date="selectedDate"
           :slot-store="slotStore"
+          :slot-status-class-fn="slotStatusClass"
           @jump-to="jumpToDate"
         />
       </div>
@@ -77,7 +79,7 @@ const {
   getSlotsForDate,
   hasSlots,
   getSlotCount,
-  hasMine,
+  slotStatusClass,
   addSlot,
   removeSlot,
   copySlotsToTargets,

@@ -4,7 +4,9 @@
 
 /* ─── Slot Gradient Classes ─── */
 .slot-gradient-0 { background: linear-gradient(135deg, #72AC4F, #448DDE); }
-.slot-gradient-1 { background: linear-gradient(135deg, #DE8A7D, #F3B678); }
+.slot-gradient-1 {background: linear-gradient(135deg, #6990FA, #CBA5FE);}
+.slot-gradient-2 { background: linear-gradient(135deg, #DE8A7D, #F3B678); }
+
 
 /* ─── Buttons ─── */
 .btn-date    { background: linear-gradient(135deg, #72AC4F, #448DDE); }
