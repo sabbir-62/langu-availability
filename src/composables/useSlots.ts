@@ -7,7 +7,7 @@ type Slot = {
   id: number;
   from: string;
   to: string;
-  isMine: boolean;
+  isBooked: boolean;
 };
 
 const slotStore = reactive<Record<string, Slot[]>>({});
@@ -25,19 +25,39 @@ export function useSlots() {
     return (slotStore[key]?.length ?? 0) > 0;
   }
 
-   function getSlotCount(date: Date) {
-     const key = typeof date === "string" ? date : dateKey(date);
-     return slotStore[key]?.length ?? 0;
-   }
+  function getSlotCount(date: Date) {
+    const key = typeof date === "string" ? date : dateKey(date);
+    return slotStore[key]?.length ?? 0;
+  }
 
+  const getSlotStatus = (date: Date) => {
+    const key = dateKey(date);
+    const slots = slotStore[key];
 
-const hasMine = (date: Date) => {
-  const key = dateKey(date);
-  const slots = slotStore[key];
-  const slotsWithDate = slots?.map(s => ({ ...s, date: key }));
-  return Array.isArray(slotsWithDate) && slotsWithDate.some((s) => s?.isMine === true);
-};
+    if (!Array.isArray(slots) || slots.length === 0) return "empty";
 
+    const total = slots.length;
+    const booked = slots.filter((s) => s.isBooked).length;
+
+    if (booked === 0) return "all-available";
+    if (booked === total) return "all-booked";
+    return "partial";
+  };
+
+  const slotStatusClass = (date: Date) => {
+    const status = getSlotStatus(date);
+
+    switch (status) {
+      case "all-available":
+        return "slot-gradient-0 text-white";
+      case "partial":
+        return "slot-gradient-1 text-white";
+      case "all-booked":
+        return "slot-gradient-2 text-white";
+      default:
+        return "text-text-muted";
+    }
+  };
 
   function isPastDate(date: Date) {
     const today = new Date();
@@ -50,11 +70,11 @@ const hasMine = (date: Date) => {
   }
 
   function addSlot(date: Date, from: string, to: string) {
-     if (isPastDate(date)) {
-       showToast("You cannot add slots in past dates", "error");
-       return false;
-     }
-     
+    if (isPastDate(date)) {
+      showToast("You cannot add slots in past dates", "error");
+      return false;
+    }
+
     if (from >= to) {
       showToast("End time must be after start time", "error");
       return false;
@@ -77,7 +97,7 @@ const hasMine = (date: Date) => {
       id: ++idCounter,
       from,
       to,
-      isMine: true,
+      isBooked: false,
     });
 
     slotStore[key].sort((a, b) => a.from.localeCompare(b.from));
@@ -130,7 +150,7 @@ const hasMine = (date: Date) => {
     getSlotsForDate,
     hasSlots,
     getSlotCount,
-    hasMine,
+    slotStatusClass,
     addSlot,
     removeSlot,
     copySlotsToTargets,

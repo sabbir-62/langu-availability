@@ -125,11 +125,10 @@ const emit = defineEmits(["addSlot", "removeSlot"]);
 
 const fromTime = ref("07:00");
 const toTime = ref("07:30");
-const isMine = ref(false);
 const timeOptions = generateTimeOptions();
 const shortDate = computed(() => formatShortDate(props.date));
 
 function handleAdd() {
-  emit("addSlot", { from: fromTime.value, to: toTime.value, isMine: true });
+  emit("addSlot", { from: fromTime.value, to: toTime.value, isBooked: false });
 }
 </script>

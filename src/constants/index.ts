@@ -80,16 +80,25 @@ export const FOOTER_SOCIALS = [
 
 export const DEMO_SLOTS = [
   {
-    date: '2026-04-04',
+    date: "2026-04-07",
     slots: [
-      { from: '07:00', to: '07:30' }, { from: '08:00', to: '08:30' }
+      { from: "07:00", to: "07:30", isBooked: false },
+      { from: "08:00", to: "08:30", isBooked: false },
     ],
   },
   {
-    date: '2026-04-05',
+    date: "2026-04-08",
     slots: [
-      { from: '07:00', to: '07:30' }, { from: '09:00', to: '10:00' },
-      { from: '14:00', to: '15:00' },
+      { from: "07:00", to: "07:30", isBooked: true },
+      { from: "09:00", to: "10:00", isBooked: false },
+      { from: "14:00", to: "15:00", isBooked: false },
     ],
-  }
-]
+  },
+  {
+    date: "2026-04-09",
+    slots: [
+      { from: "07:00", to: "07:30", isBooked: true },
+      { from: "08:00", to: "08:30", isBooked: true },
+    ],
+  },
+];
