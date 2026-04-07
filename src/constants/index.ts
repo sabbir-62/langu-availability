@@ -82,8 +82,8 @@ export const DEMO_SLOTS = [
   {
     date: "2026-04-07",
     slots: [
-      { from: "07:00", to: "07:30", isBooked: true },
-      { from: "08:00", to: "08:30", isBooked: true },
+      { from: "07:00", to: "07:30", isBooked: false },
+      { from: "08:00", to: "08:30", isBooked: false },
     ],
   },
   {

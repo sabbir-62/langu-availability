@@ -39,6 +39,9 @@
                 <span
                   v-if="getCellDate(dayIdx - 1, weekIdx - 1, mon - 1)"
                   @click="
+                    !isDisabledDate(
+                      getCellDate(dayIdx - 1, weekIdx - 1, mon - 1),
+                    ) &&
                     toggleDate(getCellDate(dayIdx - 1, weekIdx - 1, mon - 1))
                   "
                   class="text-xs sm:text-sm border border-gray-300 h-8 w-32 sm:w-48 flex justify-center items-center gap-5 sm:gap-2 rounded-full text-[10px] font-bold shadow-md cusror-pointer transition-all hover:shadow-md hover:scale-105"
@@ -89,10 +92,10 @@ const dayNames = DAY_NAMES;
 const selectedKeys = ref([]);
 const isMobile = ref(false);
 
+// Handle window resize to determine mobile vs desktop view
 function checkMobile() {
   isMobile.value = window.innerWidth < 640;
 }
-
 onMounted(() => {
   checkMobile();
   window.addEventListener("resize", checkMobile);
@@ -101,10 +104,12 @@ onUnmounted(() => {
   window.removeEventListener("resize", checkMobile);
 });
 
+// Determine how many weeks to show
 const visibleWeeks = computed(() =>
   isMobile.value ? WEEKS_TO_SHOW_MOBILE : WEEKS_TO_SHOW,
 );
 
+// Get cell date based on its position in the table
 function getCellDate(dayIdx, weekIdx, monthIdx) {
   const base = getWeekStart(props.date);
   const d = new Date(base);
@@ -116,14 +121,34 @@ function getCellDate(dayIdx, weekIdx, monthIdx) {
   return d;
 }
 
+// Check if date is disabled
+function isDisabledDate(date) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+
+  // past date
+  if (d < today) return true;
+
+  // has slots
+  if (props.hasSlotsFn(d)) return true;
+
+  return false;
+}
+
+// Format cell
 function formatCell(d) {
   return formatCopyDate(d);
 }
 
+// Check if date is selected
 function isSelected(d) {
   return selectedKeys.value.includes(dateKey(d));
 }
 
+// Toggle date
 function toggleDate(d) {
   const key = dateKey(d);
   const idx = selectedKeys.value.indexOf(key);
@@ -131,12 +156,14 @@ function toggleDate(d) {
   else selectedKeys.value.splice(idx, 1);
 }
 
+// Handle copy
 function handleCopy() {
   if (selectedKeys.value.length === 0) return;
   emit("copy", [...selectedKeys.value]);
   selectedKeys.value = [];
 }
 
+// Format tooltip
 function tooltipFor(d) {
   const count = props.hasSlotCountFn(d);
   const ds = formatTooltipDate(d);

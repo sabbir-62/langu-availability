@@ -136,8 +136,8 @@ const fromTime = ref("07:00");
 const toTime = ref("07:30");
 const timeOptions = generateTimeOptions();
 const shortDate = computed(() => formatShortDate(props.date));
-// console.log('date in TimeSlotManager:', getBookedSlotsFn(shortDate.value))
 
+// Add slot
 function handleAdd() {
   emit("addSlot", { from: fromTime.value, to: toTime.value, isBooked: false });
 }

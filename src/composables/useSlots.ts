@@ -16,20 +16,24 @@ let idCounter = 0;
 export function useSlots() {
   const { showToast } = useToast();
 
+  // Get slots for a specific date
   function getSlotsForDate(date: Date) {
     return slotStore[dateKey(date)] ?? [];
   }
 
+  // Check if a specific date has slots
   function hasSlots(date: Date) {
     const key = dateKey(date);
     return (slotStore[key]?.length ?? 0) > 0;
   }
 
+  // Get the number of slots for a specific date
   function getSlotCount(date: Date) {
     const key = typeof date === "string" ? date : dateKey(date);
     return slotStore[key]?.length ?? 0;
   }
 
+  // Get the status of the slots for a specific date
   const getBookedSlots = (date: Date) => {
     const key = dateKey(date);
     const slots = slotStore[key];
@@ -43,6 +47,7 @@ export function useSlots() {
     else return "not-all-booked";
   };
 
+  // Get the status of the slots for a specific date
   const getSlotStatus = (date: Date) => {
     const key = dateKey(date);
     const slots = slotStore[key];
@@ -57,6 +62,7 @@ export function useSlots() {
     return "partial";
   };
 
+  // Get the status of the slots for a specific date
   const slotStatusClass = (date: Date) => {
     const status = getSlotStatus(date);
 
@@ -72,6 +78,7 @@ export function useSlots() {
     }
   };
 
+  // Check if a specific date is in the past
   function isPastDate(date: Date) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -82,6 +89,7 @@ export function useSlots() {
     return selected < today;
   }
 
+  // Add a new slot
   function addSlot(date: Date, from: string, to: string) {
     if (isPastDate(date)) {
       showToast("You cannot add slots in past dates", "error");
@@ -94,31 +102,64 @@ export function useSlots() {
     }
 
     const key = dateKey(date);
-
     if (!slotStore[key]) slotStore[key] = [];
 
-    const isOverlapping = slotStore[key].some((s) => {
-      return from < s.to && to > s.from;
-    });
+    const toMinutes = (time: string) => {
+      const [h, m] = time.split(":").map(Number);
+      return h * 60 + m;
+    };
 
-    if (isOverlapping) {
-      showToast("This time overlaps with an existing slot", "error");
+    const toTime = (mins: number) => {
+      const h = String(Math.floor(mins / 60)).padStart(2, "0");
+      const m = String(mins % 60).padStart(2, "0");
+      return `${h}:${m}`;
+    };
+
+    let start = toMinutes(from);
+    const end = toMinutes(to);
+
+    let addedCount = 0;
+
+    while (start < end) {
+      const next = start + 30;
+
+      // prevent overflow(last slot)
+      if (next > end) break;
+
+      const slotFrom = toTime(start);
+      const slotTo = toTime(next);
+
+      // check overlap per small slot
+      const isOverlapping = slotStore[key].some((slot: Slot) => {
+        return slotFrom < slot.to && slotTo > slot.from;
+      });
+
+      if (!isOverlapping) {
+        slotStore[key].push({
+          id: ++idCounter,
+          from: slotFrom,
+          to: slotTo,
+          isBooked: false,
+        });
+        addedCount++;
+      }
+
+      start = next;
+    }
+
+    // sort after adding
+    slotStore[key].sort((a, b) => a.from.localeCompare(b.from));
+
+    if (addedCount === 0) {
+      showToast("All slots overlap with existing ones", "error");
       return false;
     }
 
-    slotStore[key].push({
-      id: ++idCounter,
-      from,
-      to,
-      isBooked: false,
-    });
-
-    slotStore[key].sort((a, b) => a.from.localeCompare(b.from));
-
-    showToast("Slot added!", "success");
+    showToast(`${addedCount} slot(s) added!`, "success");
     return true;
   }
 
+  // Remove a slot
   function removeSlot(date: Date, slotId: number) {
     const key = dateKey(date);
     if (!slotStore[key]) return;
@@ -128,6 +169,7 @@ export function useSlots() {
     if (slotStore[key].length === 0) delete slotStore[key];
   }
 
+  // Copy slots to multiple dates
   function copySlotsToTargets(sourceDate: Date, targetKeys: string[]) {
     const srcKey = dateKey(sourceDate);
     const srcSlots = slotStore[srcKey];
@@ -137,10 +179,22 @@ export function useSlots() {
       return 0;
     }
 
+    // filter only available slots
+    const availableSlots = srcSlots.filter((s) => !s.isBooked);
+
+    if (availableSlots.length === 0) {
+      showToast("No available slots to copy!", "error");
+      return 0;
+    }
+
     let count = 0;
     targetKeys.forEach((key) => {
       if (key === srcKey) return;
-      slotStore[key] = srcSlots.map((s: any) => ({ ...s, id: ++idCounter }));
+      slotStore[key] = availableSlots.map((s: any) => ({
+        ...s,
+        id: ++idCounter,
+        isBooked: false,
+      }));
       count++;
     });
 
@@ -148,6 +202,7 @@ export function useSlots() {
     return count;
   }
 
+  // Seed demo data
   function seedDemoData() {
     DEMO_SLOTS.forEach(({ date, slots }) => {
       slotStore[date] = slots.map((s) => ({
